@@ -1,9 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE>
 <html>
 <head>
-    <title>Title</title>
+    <title>Index</title>
 </head>
 <body>
-
+    Hello, Spring Session!
 </body>
 </html>
