@@ -16,7 +16,10 @@ public class HttpSessionConfig {
 
 	@Bean
 	public JedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory();
+		JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+		jedisConnectionFactory.setHostName("localhost");
+		jedisConnectionFactory.setPort(6379);
+		return jedisConnectionFactory;
 	}
 
 	@Bean
