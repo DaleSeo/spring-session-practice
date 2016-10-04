@@ -6,6 +6,11 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
+import redis.clients.jedis.Protocol;
+import redis.embedded.RedisServer;
+
+import javax.annotation.PreDestroy;
+import java.io.IOException;
 
 /**
  * @author Dale Seo
@@ -14,14 +19,25 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 @EnableRedisHttpSession
 public class HttpSessionConfig {
 
-	@Bean
-	public JedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory();
-	}
+	private static RedisServer redisServer;
 
 	@Bean
 	public HttpSessionStrategy httpSessionStrategy() {
 		return new HeaderHttpSessionStrategy();
 	}
+
+	@Bean
+	public JedisConnectionFactory connectionFactory() throws IOException {
+		redisServer = new RedisServer(Protocol.DEFAULT_PORT);
+		redisServer.start();
+		return new JedisConnectionFactory();
+	}
+
+	@PreDestroy
+	public void destroy() {
+		redisServer.stop();
+	}
+
+
 
 }
